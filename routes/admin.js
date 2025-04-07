@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var productHelper = require("../helpers/product-helpers");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -42,15 +43,11 @@ router.get("/add-product", (req, res) => {
 });
 
 router.post("/add-product", (req, res) => {
-  const { name, category, price, description } = req.body;
-  const image = req.files ? req.files.image : null;
-
   console.log("Form data:", req.body);
-  if (image) {
-    console.log("Image file received:", req.files.image);
-  } else {
-    console.log("No image uploaded.");
-  }
+
+  productHelper.addProduct(req.body, (data) => {
+    console.log("data added ", data);
+  });
 
   res.send("Product received!");
 });

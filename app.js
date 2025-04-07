@@ -14,17 +14,6 @@ const { extname } = require("path/posix");
 
 var app = express();
 
-try {
-  db.connect((err) => {
-    console.log("Starting app.js...", err);
-
-    if (err) console.log("console error");
-    else console.log("Database running successfully on port 27017");
-  });
-  console.log("db connecion established");
-} catch (e) {
-  console.log(e);
-}
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -45,23 +34,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(expressFileUpload());
 
+db.connect((err) => {
+  if (err) {
+    console.log("❌ DB connection failed:", err);
+    process.exit(1);
+  } else {
+    console.log("✅ DB connected");
+  }
+});
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });
-
 module.exports = app;
