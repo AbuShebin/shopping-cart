@@ -15,10 +15,20 @@ module.exports = {
       .insertOne(product)
       .then((data) => {
         console.log("✅ Inserted product:", data.insertedId);
-        callBack(data);
+        callBack(data.insertedId.toString());
       })
       .catch((err) => {
         console.log("❌ Insert error:", err);
       });
+  },
+
+  getAllProducts: async (callBack) => {
+    try {
+      console.log("get all product helper function");
+      let result = await db.get().collection("products").find().toArray();
+      callBack(result);
+    } catch (e) {
+      console.log("error is ", e);
+    }
   },
 };
