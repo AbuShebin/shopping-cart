@@ -22,13 +22,15 @@ module.exports = {
       });
   },
 
-  getAllProducts: async (callBack) => {
-    try {
-      console.log("get all product helper function");
-      let result = await db.get().collection("products").find().toArray();
-      callBack(result);
-    } catch (e) {
-      console.log("error is ", e);
-    }
+  getAllProducts: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log("get all product helper function");
+        let result = await db.get().collection("products").find().toArray();
+        resolve(result);
+      } catch (e) {
+        console.log(e);
+      }
+    });
   },
 };

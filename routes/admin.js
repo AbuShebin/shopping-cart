@@ -5,9 +5,7 @@ const path = require("path");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  productHelper.getAllProducts((products) => {
-    console.log("get all products", products);
-
+  productHelper.getAllProducts().then((products) => {
     res.render("admin/viewAllProducts", { admin: true, products });
   });
 });
