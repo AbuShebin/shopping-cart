@@ -18,6 +18,7 @@ module.exports = {
 
   loginUser: (userData) => {
     return new Promise(async (resolve, reject) => {
+      let response = {};
       let user = await db
         .get()
         .collection("users")
@@ -25,13 +26,19 @@ module.exports = {
       if (user) {
         bcrypt.compare(userData.password, user.password).then((result) => {
           if (result) {
-            console.log("login successfull");
+            console.log("result - x", result);
+            if (result) {
+              response.status = true;
+              response.data = user;
+
+              resolve(response);
+            }
           } else {
-            console.log("login failed");
+            resolve({ status: false });
           }
         });
       } else {
-        console.log("login failed");
+        resolve({ status: false });
       }
     });
   },
