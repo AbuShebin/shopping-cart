@@ -54,7 +54,11 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/cart",(req,res)=>{
-  res.render("user/cart")
+  res.render("user/cart");
+})
+
+router.get("/add-to-cart/:id",(req,res)=>{
+  
 })
 
 module.exports = router;

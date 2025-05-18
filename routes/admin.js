@@ -41,4 +41,19 @@ console.log("poduct deletion",req.params.id)
 productHelper.deleteProduct(req.params.id)
 })
 
+router.get("/editProduct/:id",(req,res)=>{
+    // console.log("editPROduct called",req.params.);
+    productHelper.getProductDetails(req.params.id).then((value)=>{
+        res.render("admin/edit-product",{product:value});
+    })
+})
+ 
+router.post("/editProduct/:id",(req,res)=>{
+console.log("edit product submited");
+  console.log("req.params",req.params.id);
+  productHelper.editProduct(req.body,req.params).then((value)=>{
+    res.redirect("/admin")
+  })
+})
+
 module.exports = router;
